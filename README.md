@@ -41,7 +41,7 @@ Although the OW-Server supports a broader set of 1-Wire sensors, these drivers h
 
 The following example shows the results of the parent driver having performed a discovery of supported 1-Wire sensors, creation of child devices, and the user's modification of most of the child device names to reflect the function of each child.  Several of the child device names have not yet been customized. 
 
-<img src="images/parent-device-example.png" alt="Example Parent Device" width="800"/>
+<img src="images/parent-device-example.jpeg" alt="Example Parent Device" width="800"/>
 
 ### 3. Configure Auto Refresh of Child Device Readings
 
