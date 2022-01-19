@@ -19,7 +19,8 @@ Although the OW-Server supports a broader set of 1-Wire sensors, these drivers h
 |DS18B20|Temperature||
 |DS18S20|Temperature||
 |DS2438|Temperature||
-|AAG TAI-8540|Humidity + temperature|Uses a DS2438 sensor to provide temperature and act as the interface to the 1-Wire network and an HIH-3610-A sensor to provide humidity.|
+|AAG TAI-8540|Temperature / Humidity Sensor|Uses a DS2438 sensor to provide temperature and act as the interface to the 1-Wire network and an HIH-3610-A sensor to provide humidity.|
+|OW-ENV-TH|Temperature / Humidity Sensor||
 
 ## Usage
 

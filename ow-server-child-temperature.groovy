@@ -1,4 +1,4 @@
-def version() {'v0.1.5'}
+def version() {'v0.2.0'}
 
 metadata {
     definition (name: 'OW-Server 1-Wire - Child - Temperature',
@@ -7,7 +7,6 @@ metadata {
                 importUrl: 'https://raw.githubusercontent.com/ckamps/hubitat-drivers-ow-server/master/ow-server-child-temperature.groovy') {
         
         capability 'TemperatureMeasurement'
-
         capability 'Refresh'
     }
 

@@ -1,4 +1,4 @@
-def version() {'v0.1.6'}
+def version() {'v0.2.0'}
 
 import groovy.xml.*
 
@@ -109,17 +109,30 @@ private def getSensors() {
     response.owd_DS2438.each{ sensor->
         sensorId = sensor.ROMId[0].text()
         if (getChildDevice(sensorId) == null) {
-            if (logEnable) log.debug "Discovered DS2438 temperature sensor: ${sensorId}"
-            child = addChildDevice("ckamps", "OW-Server 1-Wire - Child - Temperature", sensorId, [name: sensorId, label: "${sensorId} - DS2438 Temperature", isComponent: false])
-            child.refresh()
-            // Need to inspect further to see if the sensor is combined temperature and humidity.
-            if (sensor.Humidity) {
-                if (logEnable) log.debug "Discovered DS2438 humidity + temperature sensor: ${sensorId}"
-                child = addChildDevice("ckamps", "OW-Server 1-Wire - Child - Humidity", "${sensorId}.1", [name: "${sensorId}.1", label: "${sensorId}.1 - DS2438 Humidity" , isComponent: false])
-                child.refresh()
+            // Since it appears that OW Server returns a negative humidity value for DS2438 sensors
+            // that don't support humidity readings, use this observed behavior to identify temperature
+            // only sensors.
+            if (sensor.Humidity.toFloat() < 0) {
+              if (logEnable) log.debug "Discovered DS2438 temperature sensor: ${sensorId}"
+              child = addChildDevice("ckamps", "OW-Server 1-Wire - Child - Temperature", sensorId, [name: sensorId, label: "${sensorId} - DS2438 Temperature", isComponent: false])
+              child.refresh()
+            } else {
+              if (logEnable) log.debug "Discovered DS2438 temperature + humidity sensor: ${sensorId}"
+              child = addChildDevice("ckamps", "OW-Server 1-Wire - Child - Humidity", sensorId, [name: sensorId, label: "${sensorId} - DS2438 Humidity + Temperature" , isComponent: false])
+              child.refresh()
             }
         } else {
             if (logEnable) log.debug("Child device already exists for sensor: ${sensorId}")
+        }
+    }
+    response.owd_EDS0065.each{ sensor->
+        sensorId = sensor.ROMId[0].text()
+        if (getChildDevice(sensorId) == null) {
+          if (logEnable) log.debug "Discovered EDS0065 temperature + humidity sensor: ${sensorId}"
+          child = addChildDevice("ckamps", "OW-Server 1-Wire - Child - Humidity", sensorId, [name: sensorId, label: "${sensorId} - EDS0065 Humidity + Temperature" , isComponent: false])
+          child.refresh()
+        } else {
+          if (logEnable) log.debug("Child device already exists for sensor: ${sensorId}")
         }
     }
 }
